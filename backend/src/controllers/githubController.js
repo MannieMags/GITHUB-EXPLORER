@@ -24,5 +24,5 @@ async function searchUsers(req, res) {
 
 module.exports = {
   getUserDetails,
-  searchUsers,
+  searchUsers
 };

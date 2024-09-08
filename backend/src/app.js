@@ -1,14 +1,20 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/github';
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const githubRoutes = require('./routes/githubRoutes');
 
-export const getUserDetails = async (username) => {
-  try {
-    const response = await fetch(`${API_URL}/users/${username}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching user details:', error);
-    throw error;
-  }
-};
+const app = express();
+
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/github', githubRoutes);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
